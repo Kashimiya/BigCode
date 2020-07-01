@@ -4,34 +4,35 @@
 
 import os
 
-# 后缀集合
-CPP_SUFFIX_SET = {'.h', '.hpp', '.hxx', '.c', '.cpp', '.cc', '.cxx'}
-PYTHON_SUFFIX_SET = {'.py'}
-JAVA_SUFFIX_SET = {'.java'}
+class LineCounter:
+    # 后缀集合
+    __CPP_SUFFIX_SET = {'.h', '.hpp', '.hxx', '.c', '.cpp', '.cc', '.cxx'}
+    __PYTHON_SUFFIX_SET = {'.py'}
+    __JAVA_SUFFIX_SET = {'.java'}
 
-# 全局变量
-MAX_LINE_NUM = 114514
+    # 最大行数
+    __MAX_LINE_NUM = 114514
 
-def count_lines(FilePath):
+    def __init__(self, maxLineNum):
+        self.__MAX_LINE_NUM=maxLineNum
 
-    global CPP_SUFFIX_SET, PYTHON_SUFFIX_SET, JAVA_SUFFIX_SET
-    global MAX_LINE_NUM
+    def countLines(self, FilePath):
 
-    # 统计行数
-    suffix = os.path.splitext(FilePath)[-1]
-    LineCount = 0
-    if suffix in CPP_SUFFIX_SET or suffix in JAVA_SUFFIX_SET:
-        LineCount = MAX_LINE_NUM
-    else:
-        with open(FilePath, 'rb') as f:
-            last_data = '\n'
-            while True:
-                data = f.read(0x400000)
-                if not data:
-                    break
-                LineCount += data.count(b'\n')
-                last_data = data
-            if last_data[-1:] != b'\n':
-                LineCount += 1
+        suffix = os.path.splitext(FilePath)[-1]
+        LineCount = 0
 
-    return LineCount
+        if suffix in self.__CPP_SUFFIX_SET or suffix in self.__JAVA_SUFFIX_SET:
+            LineCount = self.__MAX_LINE_NUM
+        else:
+            with open(FilePath, 'rb') as f:
+                last_data = '\n'
+                while True:
+                    data = f.read(0x400000)
+                    if not data:
+                        break
+                    LineCount += data.count(b'\n')
+                    last_data = data
+                if last_data[-1:] != b'\n':
+                    LineCount += 1
+
+        return LineCount
