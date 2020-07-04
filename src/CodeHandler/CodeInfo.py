@@ -12,7 +12,7 @@ class CodeInfo:
     # 按照json的格式输出
     def printCodeInfo(self):
         print("{")
-        print("FilePath :\'"+self.FilePath+"\',")
-        print("CodeRow :"+self.CodeLine+",")
-        print("Cyclomatic_Complexity :"+ self.Cyclomatic_Complexity)
+        print("FilePath :\'" + self.FilePath + "\',")
+        print("CodeRow :" + self.CodeLine + ",")
+        print("Cyclomatic_Complexity :" + self.Cyclomatic_Complexity)
         print("},")

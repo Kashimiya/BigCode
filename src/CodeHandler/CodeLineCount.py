@@ -4,7 +4,9 @@
 
 import os
 
+
 class LineCounter:
+
     # 后缀集合
     __CPP_SUFFIX_SET = {'.h', '.hpp', '.hxx', '.c', '.cpp', '.cc', '.cxx'}
     __PYTHON_SUFFIX_SET = {'.py'}
@@ -14,7 +16,7 @@ class LineCounter:
     __MAX_LINE_NUM = 114514
 
     def __init__(self, maxLineNum):
-        self.__MAX_LINE_NUM=maxLineNum
+        self.__MAX_LINE_NUM = maxLineNum
 
     def countLines(self, FilePath):
 

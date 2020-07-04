@@ -12,9 +12,9 @@ import json
 
 class CodeFaceToTestCount:
 
-    # 读取用例答案
     __outputs = []
 
+    # 读取用例答案
     def __init__(self, path):
         file = open(path, encoding='utf-8')
         tests = json.load(file)

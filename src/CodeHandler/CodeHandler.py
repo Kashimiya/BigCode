@@ -50,6 +50,7 @@ def printResult():
 if __name__ == '__main__':
 
     if len(sys.argv) != 2:
+        # 命令行按照如下格式输入即可运行程序
         print("Usage : python3 CodeHandler.py project_path")
     else:
         project_path = sys.argv[1]
