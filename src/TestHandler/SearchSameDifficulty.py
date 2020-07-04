@@ -7,62 +7,59 @@ import json
 
 class SearchSameDifficulty:
 
-    allDate = {}
-    peopleNum = []
-    caseId = []
-    caseAverageGrade = []
+    __allDate = {}
+    __peopleNum = []
+    __caseId = []
+    __caseAverageGrade = []
 
     def __init__(self, path):
-        global allDate, caseId, peopleNum, caseAverageGrade
         file = open(path, encoding='utf-8')
-        allDate = json.load(file)
-        caseId = []
-        peopleNum = []
-        caseAverageGrade = []
+        self.__allDate = json.load(file)
+        self.__caseId = []
+        self.__peopleNum = []
+        self.__caseAverageGrade = []
 
     def countGrade(self):
-        global allDate, caseId, peopleNum, caseAverageGrade
         # 下面都是解析json文件
-        for k in allDate:
-            student = allDate[k]
+        for k in self.__allDate:
+            student = self.__allDate[k]
             for i in student:
                 if i == "cases":
                     cases = student[i]
                     for oneCase in cases:
                         for j in oneCase:
                             if j == "case_id":
-                                index = len(caseId)
-                                for m in range(0, len(caseId)):
-                                    if caseId[m] == oneCase[j]:
+                                index = len(self.__caseId)
+                                for m in range(0, len(self.__caseId)):
+                                    if self.__caseId[m] == oneCase[j]:
                                         index = m
-                                        caseAverageGrade[m] = (caseAverageGrade[m]*(peopleNum[m])+oneCase["final_score"]) / (peopleNum[m]+1)
+                                        self.__caseAverageGrade[m] = (self.__caseAverageGrade[m]*(self.__peopleNum[m])+oneCase["final_score"]) / (self.__peopleNum[m]+1)
                                         # 每输入一个分数计算平均分
-                                        peopleNum[m] += 1
-                                if index == len(caseId):
-                                    caseId.append(oneCase[j])
-                                    peopleNum.append(1)
-                                    caseAverageGrade.append(oneCase["final_score"])
-        print(caseId)
-        print(peopleNum)
-        print(caseAverageGrade)
-        self.sortByGrade()
+                                        self.__peopleNum[m] += 1
+                                if index == len(self.__caseId):
+                                    self.__caseId.append(oneCase[j])
+                                    self.__peopleNum.append(1)
+                                    self.__caseAverageGrade.append(oneCase["final_score"])
+        print(self.__caseId)
+        print(self.__peopleNum)
+        print(self.__caseAverageGrade)
+        self.__sortByGrade()
 
-    def sortByGrade(self):
-        global allDate, caseId, peopleNum, caseAverageGrade
+    def __sortByGrade(self):
         # 利用排序算法将caseAverageGrade排序，同时caseId和peopleNum也跟着其改变排位
-        for i in range(0, len(caseAverageGrade)):
+        for i in range(0, len(self.__caseAverageGrade)):
             for j in range(0, i):
-                if caseAverageGrade[i] > caseAverageGrade[j]:
-                    temp1 = caseAverageGrade[i]
-                    temp2 = peopleNum[i]
-                    temp3 = caseId[i]
+                if self.__caseAverageGrade[i] > self.__caseAverageGrade[j]:
+                    temp1 = self.__caseAverageGrade[i]
+                    temp2 = self.__peopleNum[i]
+                    temp3 = self.__caseId[i]
                     for k in range(i, j, -1):
-                        caseId[k] = caseId[k-1]
-                        peopleNum[k] = peopleNum[k-1]
-                        caseAverageGrade[k] = caseAverageGrade[k-1]
-                    caseAverageGrade[j] = temp1
-                    peopleNum[j] = temp2
-                    caseId[j] = temp3
-        print(caseId)
-        print(peopleNum)
-        print(caseAverageGrade)
+                        self.__caseId[k] = self.__caseId[k-1]
+                        self.__peopleNum[k] = self.__peopleNum[k-1]
+                        self.__caseAverageGrade[k] = self.__caseAverageGrade[k-1]
+                    self.__caseAverageGrade[j] = temp1
+                    self.__peopleNum[j] = temp2
+                    self.__caseId[j] = temp3
+        print(self.__caseId)
+        print(self.__peopleNum)
+        print(self.__caseAverageGrade)
