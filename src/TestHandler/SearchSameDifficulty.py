@@ -3,6 +3,7 @@
 '''
 
 import json
+import os
 
 
 class SearchSameDifficulty:
@@ -13,6 +14,7 @@ class SearchSameDifficulty:
     __caseAverageGrade = []
 
     def __init__(self, path):
+        #path是json文件路径
         file = open(path, encoding='utf-8')
         self.__allDate = json.load(file)
         self.__caseId = []
@@ -40,9 +42,6 @@ class SearchSameDifficulty:
                                     self.__caseId.append(oneCase[j])
                                     self.__peopleNum.append(1)
                                     self.__caseAverageGrade.append(oneCase["final_score"])
-        print(self.__caseId)
-        print(self.__peopleNum)
-        print(self.__caseAverageGrade)
         self.__sortByGrade()
 
     def __sortByGrade(self):
@@ -60,6 +59,9 @@ class SearchSameDifficulty:
                     self.__caseAverageGrade[j] = temp1
                     self.__peopleNum[j] = temp2
                     self.__caseId[j] = temp3
-        print(self.__caseId)
-        print(self.__peopleNum)
-        print(self.__caseAverageGrade)
+        path=os.path.abspath('..')+'\\doc\\Result'
+        doc=open(path,'a')
+        print(self.__caseId,file=doc)
+        print(self.__peopleNum,file=doc)
+        print(self.__caseAverageGrade,file=doc)
+        doc.close()
