@@ -51,6 +51,8 @@ class CodeHandler:
             file.write(json.dumps(code.__dict__, False, 4))
             file.write(",\n")
 
+        file.close()
+
 
 if __name__ == '__main__':
 
