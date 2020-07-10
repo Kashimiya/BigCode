@@ -48,8 +48,8 @@ class CodeHandler:
         file = open(targetPath, 'w')
 
         for code in self.__CODE_INFO:
-            fl.write(json.dumps(code.__dict__, False, 4))
-            fl.write(",\n")
+            file.write(json.dumps(code.__dict__, False, 4))
+            file.write(",\n")
 
 
 if __name__ == '__main__':
