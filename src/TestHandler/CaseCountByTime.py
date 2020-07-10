@@ -19,7 +19,7 @@ class CaseCountByTime:
 
     def countByTime(self, deadLine):
         # 给的是deadLine是float类型的时间戳
-        deadLine = deadLine * 1000;
+        deadLine = deadLine * 1000
         for k in self.__allDate:
             # 下面是解析json文件
             student = self.__allDate[k]
