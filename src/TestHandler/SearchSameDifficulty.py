@@ -7,14 +7,13 @@ import os
 
 
 class SearchSameDifficulty:
-
     __allDate = {}
     __peopleNum = []
     __caseId = []
     __caseAverageGrade = []
 
     def __init__(self, path):
-        #path是json文件路径
+        # path是json文件路径
         file = open(path, encoding='utf-8')
         self.__allDate = json.load(file)
         self.__caseId = []
@@ -35,7 +34,8 @@ class SearchSameDifficulty:
                                 for m in range(0, len(self.__caseId)):
                                     if self.__caseId[m] == oneCase[j]:
                                         index = m
-                                        self.__caseAverageGrade[m] = (self.__caseAverageGrade[m]*(self.__peopleNum[m])+oneCase["final_score"]) / (self.__peopleNum[m]+1)
+                                        self.__caseAverageGrade[m] = (self.__caseAverageGrade[m] * (
+                                        self.__peopleNum[m]) + oneCase["final_score"]) / (self.__peopleNum[m] + 1)
                                         # 每输入一个分数计算平均分
                                         self.__peopleNum[m] += 1
                                 if index == len(self.__caseId):
@@ -53,15 +53,15 @@ class SearchSameDifficulty:
                     temp2 = self.__peopleNum[i]
                     temp3 = self.__caseId[i]
                     for k in range(i, j, -1):
-                        self.__caseId[k] = self.__caseId[k-1]
-                        self.__peopleNum[k] = self.__peopleNum[k-1]
-                        self.__caseAverageGrade[k] = self.__caseAverageGrade[k-1]
+                        self.__caseId[k] = self.__caseId[k - 1]
+                        self.__peopleNum[k] = self.__peopleNum[k - 1]
+                        self.__caseAverageGrade[k] = self.__caseAverageGrade[k - 1]
                     self.__caseAverageGrade[j] = temp1
                     self.__peopleNum[j] = temp2
                     self.__caseId[j] = temp3
-        path=os.path.abspath('..')+'\\doc\\Result'
-        doc=open(path,'a')
-        print(self.__caseId,file=doc)
-        print(self.__peopleNum,file=doc)
-        print(self.__caseAverageGrade,file=doc)
+        path = os.path.abspath('..') + '\\doc\\Result'
+        doc = open(path, 'a')
+        print(self.__caseId, file=doc)
+        print(self.__peopleNum, file=doc)
+        print(self.__caseAverageGrade, file=doc)
         doc.close()
