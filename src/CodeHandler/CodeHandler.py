@@ -41,7 +41,7 @@ class CodeHandler:
                 Cyclomatic_Complexity = 0
                 self.__CODE_INFO.append(CodeInfo(fpath, LineCount, Cyclomatic_Complexity))
             if os.path.isdir(fpath):
-                list_files(fpath)
+                self.list_files(fpath)
 
     def printResult(self, targetPath):
 
