@@ -41,7 +41,7 @@ class CodeHandler:
                 Cyclomatic_Complexity = 0
                 self.__CODE_INFO.append(CodeInfo(fpath, LineCount, Cyclomatic_Complexity))
             if os.path.isdir(fpath):
-                list_files(fpath)
+                self.list_files(fpath)
 
     def printResult(self, targetPath):
 
@@ -50,6 +50,8 @@ class CodeHandler:
         for code in self.__CODE_INFO:
             file.write(json.dumps(code.__dict__, False, 4))
             file.write(",\n")
+
+        file.close()
 
 
 if __name__ == '__main__':
