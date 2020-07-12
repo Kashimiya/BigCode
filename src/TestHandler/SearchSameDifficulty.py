@@ -61,7 +61,13 @@ class SearchSameDifficulty:
                     self.__caseId[j] = temp3
         path=os.path.abspath('..')+'\\doc\\Result'
         doc=open(path,'a')
+
         print(self.__caseId,file=doc)
         print(self.__peopleNum,file=doc)
         print(self.__caseAverageGrade,file=doc)
+        '''
+        #暂时修改成csv格式输出
+        for i in range(len(self.__caseId)):
+            print(str(self.__caseId[i])+","+str(self.__peopleNum[i])+","+str(self.__caseAverageGrade[i]),file=doc)
         doc.close()
+        '''

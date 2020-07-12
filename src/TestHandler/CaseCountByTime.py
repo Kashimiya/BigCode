@@ -16,6 +16,7 @@ class CaseCountByTime:
         self.__caseId = []
         self.__peopleNum = []
         self.__caseAverageGrade = []
+        self.__caseCount=[]
 
     def countByTime(self,deadLine):
         #给的是deadLine是float类型的时间戳
@@ -47,6 +48,19 @@ class CaseCountByTime:
         doc=open(path,'a')
         print(self.__caseCount,file=doc)
         print(self.__userId,file=doc)
+        '''
+        #暂用csv格式输出
+        deadLine=deadLine/1000
+        timeArray=time.localtime(deadLine)
+        date = time.strftime("%Y-%m-%d %H:%M:%S",timeArray)
+        print(date,end=",",file=doc)
+        for i in range(len(self.__caseCount)):
+            if(i!=len(self.__caseCount)-1):
+                print(self.__caseCount[i],end=",",file=doc)
+            else:
+                print(self.__caseCount[i],end="",file=doc)
+        print("\n",file=doc)
         doc.close()
+        '''
 
 
