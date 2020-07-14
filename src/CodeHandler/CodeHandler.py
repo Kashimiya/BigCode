@@ -1,6 +1,6 @@
-'''
+"""
 将控制台输出保存到文件https://www.cnblogs.com/pfeiliu/p/12723589.html
-'''
+"""
 
 import os
 import sys
@@ -22,9 +22,9 @@ class CodeHandler:
 
     def list_files(self, path):
 
-        '''
+        """
         遍历工程路径path，如果遇到文件则统计，如果遇到目录则进行递归
-        '''
+        """
 
         FaceToTestHandler = CodeFaceToTestCount(path + '/test_data.json')
         lineCounter = LineCounter(self.__MAX_LINE_NUM)

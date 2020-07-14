@@ -1,6 +1,6 @@
-'''
+"""
 这里面的方法主要完成计算每个题目的均分以及对于均分进行排序
-'''
+"""
 
 import json
 import os
@@ -35,7 +35,7 @@ class SearchSameDifficulty:
                                     if self.__caseId[m] == oneCase[j]:
                                         index = m
                                         self.__caseAverageGrade[m] = (self.__caseAverageGrade[m] * (
-                                        self.__peopleNum[m]) + oneCase["final_score"]) / (self.__peopleNum[m] + 1)
+                                            self.__peopleNum[m]) + oneCase["final_score"]) / (self.__peopleNum[m] + 1)
                                         # 每输入一个分数计算平均分
                                         self.__peopleNum[m] += 1
                                 if index == len(self.__caseId):
@@ -59,12 +59,12 @@ class SearchSameDifficulty:
                     self.__caseAverageGrade[j] = temp1
                     self.__peopleNum[j] = temp2
                     self.__caseId[j] = temp3
-        path=os.path.abspath('..')+'\\doc\\Result'
-        doc=open(path,'a')
+        path = os.path.abspath('..') + '\\doc\\Result'
+        doc = open(path, 'a')
 
-        print(self.__caseId,file=doc)
-        print(self.__peopleNum,file=doc)
-        print(self.__caseAverageGrade,file=doc)
+        print(self.__caseId, file=doc)
+        print(self.__peopleNum, file=doc)
+        print(self.__caseAverageGrade, file=doc)
         '''
         #暂时修改成csv格式输出
         for i in range(len(self.__caseId)):
