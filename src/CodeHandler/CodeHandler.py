@@ -26,21 +26,29 @@ class CodeHandler:
         遍历工程路径path，如果遇到文件则统计，如果遇到目录则进行递归
         """
 
-        FaceToTestHandler = CodeFaceToTestCount(path + '/test_data.json')
         lineCounter = LineCounter(self.__MAX_LINE_NUM)
 
         filenames = os.listdir(path)
         for f in filenames:
             fpath = os.path.join(path, f)
-            if os.path.isfile(fpath):
-                LineCount = lineCounter.countLines(fpath)
+            if f == '.mooctest':
+                cases_path = ''
+                code_path = ''
+                files = os.listdir(fpath)
+                for file in files:
+                    if file != 'testCases.json':
+                        code_path = os.path.join(fpath, file)
+                    else:
+                        cases_path = os.path.join(fpath, 'testCases.json')
+                FaceToTestHandler = CodeFaceToTestCount(cases_path)
+                LineCount = lineCounter.countLines(code_path)
                 if LineCount != self.__MAX_LINE_NUM:
-                    if FaceToTestHandler.isFaceToTest(fpath):
+                    if FaceToTestHandler.isFaceToTest(code_path):
                         LineCount = self.__MAX_LINE_NUM
                 # TODO 圈复杂度统计
                 Cyclomatic_Complexity = 0
-                self.__CODE_INFO.append(CodeInfo(fpath, LineCount, Cyclomatic_Complexity))
-            if os.path.isdir(fpath):
+                self.__CODE_INFO.append(CodeInfo(code_path, LineCount, Cyclomatic_Complexity))
+            elif os.path.isdir(fpath):
                 self.list_files(fpath)
 
     def printResult(self, targetPath):
@@ -63,7 +71,7 @@ if __name__ == '__main__':
         # 命令行按照如下格式输入即可运行程序
         # @param: project_path: 包含代码文件的目录，可以是文件夹或者文件
         # @param: target_path: 输出目标，是一个json文件
-
+        # TODO 将CodeInfo的json文件输出到doc里
         print("Usage : python3 CodeHandler.py project_path target_path")
     else:
         project_path = sys.argv[1]

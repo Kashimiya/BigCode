@@ -13,6 +13,8 @@ class TestChooser:
     __hardTime = []
     # 挑选的分数段，默认为大于98小于100
     __scoreSet = [98, 100]
+    # 挑选的提交次数段，默认为大于10小于60
+    __commitSet = [10, 60]
     __smoothTestSet = []
     __hardTestSet = []
     # 输出结果 调用get函数即可
@@ -56,16 +58,28 @@ class TestChooser:
     # 在initTestSet基础上，挑选出符合分数区间的题
     def __chooseTest(self):
         path = os.path.abspath('..\\..') + '\\doc\\Score.csv'
-        with open(path) as file:
-            reader = csv.reader(file)
-            lines = list(reader)
-            for line in lines:
-                if line[0] in self.__smoothTestSet:
-                    if self.__scoreSet[0] < float(line[2]) < self.__scoreSet[1]:
-                        self.__smoothRes.append(line[0])
-                elif line[0] in self.__hardTestSet:
-                    if self.__scoreSet[0] < float(line[2]) < self.__scoreSet[1]:
-                        self.__hardRes.append(line[0])
+        file = open(path, 'r')
+        reader = csv.reader(file)
+        score_lines = list(reader)
+        file.close()
+        path = os.path.abspath('..\\..') + '\\doc\\CommitTimes.csv'
+        file = open(path, 'r')
+        reader = csv.reader(file)
+        commits_lines = list(reader)
+        file.close()
+        for score_line in score_lines:
+            if score_line[0] in self.__smoothTestSet:
+                if self.__scoreSet[0] < float(score_line[2]) < self.__scoreSet[1]:
+                    for commits_line in commits_lines:
+                        if commits_line[0] == score_line[0]:
+                            if self.__commitSet[0] < float(commits_line[1]) < self.__commitSet[1]:
+                                self.__smoothRes.append(score_line[0])
+            elif score_line[0] in self.__hardTestSet:
+                if self.__scoreSet[0] < float(score_line[2]) < self.__scoreSet[1]:
+                    for commits_line in commits_lines:
+                        if commits_line[0] == score_line[0]:
+                            if self.__commitSet[0] < float(commits_line[1]) < self.__commitSet[1]:
+                                self.__hardRes.append(score_line[0])
 
     def getSmoothTest(self):
         return self.__smoothRes
