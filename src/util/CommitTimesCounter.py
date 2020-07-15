@@ -47,16 +47,17 @@ class CommitTimesCounter:
             for case in cases:
                 index = len(self.__caseId)
                 commitTimes = len(case["upload_records"])
-                for i in range(len(self.__caseId)):
-                    if self.__caseId[i] == case["case_id"]:
-                        index = i
-                        self.__peopleNum[i] += 1
-                        self.__caseAvgCommitTimes[i] = (self.__caseAvgCommitTimes[i] * self.__peopleNum[
-                            i] + commitTimes) / self.__peopleNum[i]
-                if index == len(self.__caseId):
-                    self.__caseId.append(case["case_id"])
-                    self.__peopleNum.append(1)
-                    self.__caseAvgCommitTimes.append(commitTimes)
+                if commitTimes != 0:
+                    for i in range(len(self.__caseId)):
+                        if self.__caseId[i] == case["case_id"]:
+                            index = i
+                            self.__peopleNum[i] += 1
+                            self.__caseAvgCommitTimes[i] = (self.__caseAvgCommitTimes[i] * self.__peopleNum[
+                                i] + commitTimes) / self.__peopleNum[i]
+                    if index == len(self.__caseId):
+                        self.__caseId.append(case["case_id"])
+                        self.__peopleNum.append(1)
+                        self.__caseAvgCommitTimes.append(commitTimes)
         path = os.path.abspath('..\\..') + '\\doc\\CommitTimes.csv'
         doc = open(path, 'a')
         for i in range(len(self.__caseId)):
@@ -64,10 +65,8 @@ class CommitTimesCounter:
 
 
 if __name__ == '__main__':
-    '''
-    ctc = CommitTimesCounter("D:\\test_data.json")
-    ctc.printAvgCommitTimes()
-    '''
+    # ctc = CommitTimesCounter("D:\\test_data.json")
+    # ctc.printAvgCommitTimes()
     # 用pandas对csv排序
     path = os.path.abspath('..\\..') + '\\doc\\CommitTimes.csv'
     file = pd.read_csv(path)
