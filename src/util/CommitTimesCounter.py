@@ -1,5 +1,6 @@
 import json
 import os
+import pandas as pd
 
 
 class CommitTimesCounter:
@@ -63,5 +64,12 @@ class CommitTimesCounter:
 
 
 if __name__ == '__main__':
+    '''
     ctc = CommitTimesCounter("D:\\test_data.json")
     ctc.printAvgCommitTimes()
+    '''
+    # 用pandas对csv排序
+    path = os.path.abspath('..\\..') + '\\doc\\CommitTimes.csv'
+    file = pd.read_csv(path)
+    data = file.sort_values(by="CommitTimes", ascending=True)
+    data.to_csv("new.csv", mode='a+', index=False)
