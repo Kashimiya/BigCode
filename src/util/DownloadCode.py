@@ -47,6 +47,8 @@ for i in range(len(selected_num)):
         filename_target = filename_target.replace("*", "x")
         filename_target=dir_target + user + "\\" + case["case_type"]+"\\"+filename_target
         f=zipfile.ZipFile(filename,'r')
+        print(f.namelist())
         for file in f.namelist():
-            f.extract(file,filename_target)
+            if file=='.mooctest/answer.py' or file=='.mooctest/testCases.json':
+                f.extract(file,filename_target)
 
