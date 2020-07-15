@@ -1,6 +1,6 @@
 """
 现在简单做了一个根据分数选择题目的类
-使用方法，在创建实例后直接get结果即可
+使用方法：在创建实例后直接get结果即可
 """
 import csv
 import json
@@ -19,8 +19,8 @@ class TestChooser:
     __hardRes = []
 
     # @param: student 需要进行选择的学生的编号
-    # @param: smoothTime 平滑做作业的区间，包含一个或多个起始和截止的时间戳,两两成对
-    # @param: hardTime 赶作业的时间，包含一个或多个起始和截止的时间戳，两两成对
+    # @param: smoothTime 平滑做作业的区间，包含一个或多个起始和截止的时间戳，两两成对
+    # @param: hardTime 赶作业的区间，包含一个或多个起始和截止的时间戳，两两成对
     # @param: path 做题结果json文件路径
     def __init__(self, student, smoothTime, hardTime, path):
         self.__student = student
@@ -28,6 +28,11 @@ class TestChooser:
         self.__hardTime = hardTime
         self.__initTestSet(path)
         self.__chooseTest()
+
+    # 更改挑选的分数段
+    # @param: newScoreSet 包含两个数（整数或小数）的数组
+    def setScoreSet(self, newScoreSet):
+        self.__scoreSet = newScoreSet
 
     # 挑选出该同学在平常阶段和赶作业阶段做的题目的编号
     def __initTestSet(self, path):
@@ -47,6 +52,7 @@ class TestChooser:
                             self.__hardTestSet.append(case["case_id"])
         file.close()
 
+    # 在initTestSet基础上，挑选出符合分数区间的题
     def __chooseTest(self):
         with open("../doc/Score.csv") as file:
             reader = csv.reader(file)
