@@ -33,7 +33,7 @@ class CodeFaceToTestCount:
         words = Txt.split()
         counts = 0
         i = 0
-        while (i < len(words)):
+        while i < len(words):
             if words[i] == 'print':
                 # 现在只是简单统计了print的个数
                 counts += 1
