@@ -4,6 +4,7 @@
 """
 import csv
 import json
+import os
 
 
 class TestChooser:
@@ -54,7 +55,8 @@ class TestChooser:
 
     # 在initTestSet基础上，挑选出符合分数区间的题
     def __chooseTest(self):
-        with open("../doc/Score.csv") as file:
+        path = os.path.abspath('..\\..') + '\\doc\\Score.csv'
+        with open(path) as file:
             reader = csv.reader(file)
             lines = list(reader)
             for line in lines:
