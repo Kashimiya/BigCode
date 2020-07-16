@@ -59,7 +59,7 @@ class SearchSameDifficulty:
                     self.__caseAverageGrade[j] = temp1
                     self.__peopleNum[j] = temp2
                     self.__caseId[j] = temp3
-        path = os.path.abspath('..') + '\\doc\\Result'
+        path = os.path.abspath('../..') + '\\doc\\Result'
         doc = open(path, 'a')
 
         print(self.__caseId, file=doc)
@@ -70,7 +70,7 @@ class SearchSameDifficulty:
         for i in range(len(self.__caseId)):
             print(str(self.__caseId[i])+","+str(self.__peopleNum[i])+","+str(self.__caseAverageGrade[i]),file=doc)
 =======
-        path = os.path.abspath('..') + '\\doc\\Result'
+        path = os.path.abspath('../..') + '\\doc\\Result'
         doc = open(path, 'a')
         print(self.__caseId, file=doc)
         print(self.__peopleNum, file=doc)

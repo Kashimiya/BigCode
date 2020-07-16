@@ -44,7 +44,7 @@ class CaseCountByTime:
                                         self.__caseCount[len(self.__caseCount) - 1] += 1
                                         break
         # 在一次提交记录中的时间在deadLine之前以及已经拿到了满分是这个同学的完成题目加一并停止遍历题目
-        path = os.path.abspath('..') + '\\doc\\Result'
+        path = os.path.abspath('../..') + '\\doc\\Result'
         doc = open(path, 'a')
         print(self.__caseCount, file=doc)
         print(self.__userId, file=doc)
@@ -62,3 +62,4 @@ class CaseCountByTime:
         print("\n",file=doc)
         doc.close()
         '''
+
