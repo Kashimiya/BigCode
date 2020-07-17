@@ -62,4 +62,3 @@ class CaseCountByTime:
         print("\n",file=doc)
         doc.close()
         '''
-

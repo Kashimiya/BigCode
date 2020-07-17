@@ -33,9 +33,14 @@ class TestChooser:
         self.__chooseTest()
 
     # 更改挑选的分数段
-    # @param: newScoreSet 包含两个数（整数或小数）的数组
+    # @param: newScoreSet 包含两个数（整数或小数）的数组，最高分数是100
     def setScoreSet(self, newScoreSet):
         self.__scoreSet = newScoreSet
+
+    # 更改挑选的提交次数段
+    # @param: newCommitSet 包含两个数（整数或小数）的数组，题均最大提交次数是58.19663034
+    def setCommitSet(self, newCommitSet):
+        self.__commitSet = newCommitSet
 
     # 挑选出该同学在平常阶段和赶作业阶段做的题目的编号
     def __initTestSet(self, path):
