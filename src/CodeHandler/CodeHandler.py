@@ -8,18 +8,20 @@ import json
 from CodeLineCount import LineCounter
 from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
+import mccabe_alter
+
 
 # 最大行数
 MAX_LINE_NUM = 114514
-
+MAX_Cyclomatic_Complexity=114514
 
 class CodeHandler:
     __CODE_INFO = []
     __MAX_LINE_NUM = 114514
-
-    def __init__(self, max_line_num):
+    __MAX_Cyclomatic_Complexity=114514
+    def __init__(self, max_line_num,max_cyclomatic_complexity):
         self.__MAX_LINE_NUM = max_line_num
-
+        self.__MAX_Cyclomatic_Complexity = max_cyclomatic_complexity
     def list_files(self, path):
 
         """
@@ -45,8 +47,13 @@ class CodeHandler:
                 if LineCount != self.__MAX_LINE_NUM:
                     if FaceToTestHandler.isFaceToTest(code_path):
                         LineCount = self.__MAX_LINE_NUM
-                # TODO 圈复杂度统计
-                Cyclomatic_Complexity = 0
+                #圈复杂度统计
+                Cyclomatic_Complexity=0
+                if(LineCount==self.__MAX_LINE_NUM):
+                    Cyclomatic_Complexity=self.__MAX_Cyclomatic_Complexity
+                else:
+
+                    Cyclomatic_Complexity=mccabe_alter.get_module_complexity(code_path,threshold=0)
                 self.__CODE_INFO.append(CodeInfo(code_path, LineCount, Cyclomatic_Complexity))
             elif os.path.isdir(fpath):
                 self.list_files(fpath)
@@ -56,7 +63,7 @@ class CodeHandler:
         file = open(targetPath, 'w')
 
         for code in self.__CODE_INFO:
-            file.write(json.dumps(code.__dict__, False, 4))
+            file.write(json.dumps(code.__dict__))
             file.write(",\n")
 
         file.close()
@@ -64,7 +71,7 @@ class CodeHandler:
 
 if __name__ == '__main__':
 
-    global MAX_LINE_NUM
+    #global MAX_LINE_NUM
 
     if len(sys.argv) != 3:
 
@@ -72,10 +79,10 @@ if __name__ == '__main__':
         # @param: project_path: 包含代码文件的目录，可以是文件夹或者文件
         # @param: target_path: 输出目标，是一个json文件
         # TODO 将CodeInfo的json文件输出到doc里
-        print("Usage : python3 CodeHandler.py project_path target_path")
+        print("Usage :  project_path target_path")
     else:
         project_path = sys.argv[1]
         target_path = sys.argv[2]
-        handler = CodeHandler(MAX_LINE_NUM)
+        handler = CodeHandler(MAX_LINE_NUM,MAX_Cyclomatic_Complexity)
         handler.list_files(project_path)
         handler.printResult(target_path)

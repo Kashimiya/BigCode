@@ -18,10 +18,11 @@ class CodeFaceToTestCount:
     def __init__(self, path):
         file = open(path, encoding='utf-8')
         tests = json.load(file)
-        self.__outputs = tests['output']
+        for test in tests:
+            self.__outputs.append(test['output'])
 
     def __getText(self, path):
-        txt = open(path, "r").read()
+        txt = open(path, "r", encoding='UTF-8').read()
         txt = txt.lower()
         for char in '!"#$%&()*+,-./:;<=>?@[\\]^_‘{|}~\'':
             # 将文本中特殊字符替换为空格
