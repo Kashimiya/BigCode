@@ -9,6 +9,8 @@ import ast
 from CodeLineCount import LineCounter
 from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
+import mccabe_alter
+
 
 # 最大行数和最大圈复杂度
 MAX_LINE_NUM = 200
@@ -78,7 +80,7 @@ class CodeHandler:
         file = open(targetPath, 'w')
 
         for code in self.__CODE_INFO:
-            file.write(json.dumps(code.__dict__, False, 4))
+            file.write(json.dumps(code.__dict__))
             file.write(",\n")
 
         file.close()
@@ -86,8 +88,7 @@ class CodeHandler:
 
 if __name__ == '__main__':
 
-    global MAX_LINE_NUM
-    global MAX_CYCLOMATIC_COMPLEXITY
+    #global MAX_LINE_NUM
 
     if len(sys.argv) != 3:
 
@@ -95,7 +96,7 @@ if __name__ == '__main__':
         # @param: project_path: 包含代码文件的目录，可以是文件夹或者文件
         # @param: target_path: 输出目标，是一个json文件
         # TODO 将CodeInfo的json文件输出到doc里
-        print("Usage : python3 CodeHandler.py project_path target_path")
+        print("Usage :  project_path target_path")
     else:
         project_path = sys.argv[1]
         target_path = sys.argv[2]

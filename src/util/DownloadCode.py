@@ -10,8 +10,11 @@ res = f.read()
 data = json.loads(res)
 dir="D:\\bigCodeDownloads\\raw\\"
 dir_target="D:\\bigCodeDownloads\\unziped\\"
-selected_uid=[60686,60782,60586,60690,60771,40552,60595,60749,60678,60721,60810,59140,60637,60660,60746,60825]
-selected_num=[19,32,54,72,92,104,114,133,179,184,196,237,242,245,255,260]
+#selected_uid=[60686,60782,60586,60688,60768,61519,60590,60710,60673,60712,60797,59137,60611,60643,60739,60825]
+#selected_num=[19,32,54,72,92,104,114,133,179,184,196,237,242,245,255,260]
+selected_uid=[60739,60825]
+selected_num=[255,260]
+
 # print(data)
 for i in range(len(selected_num)):
     uid=str(selected_uid[i])
