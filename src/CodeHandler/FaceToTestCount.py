@@ -11,7 +11,6 @@ import json
 
 
 class CodeFaceToTestCount:
-
     __outputs = []
 
     # 读取用例答案
@@ -34,6 +33,9 @@ class CodeFaceToTestCount:
         counts = 0
         i = 0
         while i < len(words):
+            # # 含有include为c系代码
+            # if words[i] == 'include':
+            #     return -1
             if words[i] == 'print':
                 # 现在只是简单统计了print的个数
                 counts += 1
@@ -44,4 +46,7 @@ class CodeFaceToTestCount:
         if len(self.__outputs) <= 1:
             # 只有一个用例的情况下，就当作他没有面向用例吧
             return False
-        return len(self.__outputs) <= self.__countPrint(path)
+        check = self.__countPrint(path)
+        # if check == -1:
+        #     return True
+        return len(self.__outputs) <= check
