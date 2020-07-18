@@ -11,7 +11,6 @@ from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
 import mccabe_alter
 
-
 # 最大行数和最大圈复杂度
 MAX_LINE_NUM = 200
 MAX_CYCLOMATIC_COMPLEXITY = 50
@@ -88,7 +87,7 @@ class CodeHandler:
 
 if __name__ == '__main__':
 
-    #global MAX_LINE_NUM
+    # global MAX_LINE_NUM
 
     if len(sys.argv) != 3:
 

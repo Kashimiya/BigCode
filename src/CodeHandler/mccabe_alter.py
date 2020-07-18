@@ -13,7 +13,6 @@ from collections import defaultdict
 import ast
 from ast import iter_child_nodes
 
-
 __version__ = '0.6.1'
 
 
@@ -264,8 +263,8 @@ class McCabeChecker(object):
         visitor.preorder(self.tree, visitor)
         for graph in visitor.graphs.values():
             if graph.complexity() > self.max_complexity:
-                #text = self._error_tmpl % (graph.entity, graph.complexity())
-                text =graph.complexity()
+                # text = self._error_tmpl % (graph.entity, graph.complexity())
+                text = graph.complexity()
                 yield graph.lineno, graph.column, text, type(self)
 
 
@@ -279,21 +278,21 @@ def get_code_complexity(code, threshold=7, filename='stdin'):
 
     complx = []
     #
-    res=0
+    res = 0
     McCabeChecker.max_complexity = threshold
     for lineno, offset, text, check in McCabeChecker(tree, filename).run():
-        #complx.append('%s:%d:1: %s' % (filename, lineno, text))
-        res+=text
+        # complx.append('%s:%d:1: %s' % (filename, lineno, text))
+        res += text
 
-    #if len(complx) == 0:
+    # if len(complx) == 0:
     #    return 0
-    #print('\n'.join(complx))
+    # print('\n'.join(complx))
     return res
 
 
 def get_module_complexity(module_path, threshold=7):
     """Returns the complexity of a module"""
-    with open(module_path, "rU",encoding='UTF-8') as mod:
+    with open(module_path, "rU", encoding='UTF-8') as mod:
         code = mod.read()
     return get_code_complexity(code, threshold, filename=module_path)
 
