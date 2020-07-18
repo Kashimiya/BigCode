@@ -24,7 +24,7 @@ class CodeHandler:
 
     def __init__(self, max_line_num, max_cyclomatic_complexity):
         self.__MAX_LINE_NUM = max_line_num
-        self.MAX_CYCLOMATIC_COMPLEXITY = max_cyclomatic_complexity
+        self.__MAX_CYCLOMATIC_COMPLEXITY = max_cyclomatic_complexity
 
     def list_files(self, path):
 
@@ -56,7 +56,7 @@ class CodeHandler:
                             LineCount = self.__MAX_LINE_NUM
                     # TODO 圈复杂度统计
                     if LineCount != self.__MAX_LINE_NUM:
-                        Cyclomatic_Complexity = 0
+                        Cyclomatic_Complexity = mccabe_alter.get_module_complexity(code_path,0)
                     else:
                         Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
                 else:

@@ -26,6 +26,12 @@ class TestChooser:
     # @param: hardTime 赶作业的区间，包含一个或多个起始和截止的时间戳，两两成对
     # @param: path 做题结果json文件路径
     def __init__(self, student, smoothTime, hardTime, path):
+        #初始化结果
+        self.__smoothRes=[]
+        self.__hardRes=[]
+        self.__hardTestSet = []
+        self.__smoothTestSet=[]
+
         self.__student = student
         self.__smoothTime = smoothTime
         self.__hardTime = hardTime
@@ -47,18 +53,24 @@ class TestChooser:
                 cases = student["cases"]
                 for case in cases:
                     upload = case["upload_records"]
-                    for i in range(len(self.__smoothTime) - 1, 2):
+                    '''for i in range(len(self.__smoothTime) - 1, 2):
                         if self.__smoothTime[i] < upload[0]["upload_time"] < self.__smoothTime[i + 1]:
+                            self.__smoothTestSet.append(case["case_id"])'''
+                    for i in range(len(self.__smoothTime)//2):
+                        if self.__smoothTime[i*2] < upload[0]["upload_time"] < self.__smoothTime[i*2 + 1]:
                             self.__smoothTestSet.append(case["case_id"])
-                    for i in range(len(self.__hardTime) - 1, 2):
+                    '''for i in range(len(self.__hardTime) - 1, 2):
                         if self.__hardTime[i] < upload[0]["upload_time"] < self.__hardTime[i + 1]:
+                            self.__hardTestSet.append(case["case_id"])'''
+                    for i in range(len(self.__hardTime)//2):
+                        if self.__hardTime[i*2] < upload[0]["upload_time"] < self.__hardTime[i*2 + 1]:
                             self.__hardTestSet.append(case["case_id"])
         file.close()
 
     # 在initTestSet基础上，挑选出符合分数区间的题
     def __chooseTest(self):
         path = os.path.abspath('..\\..') + '\\doc\\Score.csv'
-        file = open(path, 'r')
+        file = open(path, 'r',encoding='UTF-8')
         reader = csv.reader(file)
         score_lines = list(reader)
         file.close()
