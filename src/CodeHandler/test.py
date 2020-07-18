@@ -1,3 +1,4 @@
+#筛选的题目代号输出到doc\ChoosenQuestions.json中
 import time
 from TestChooser import TestChooser
 import os
