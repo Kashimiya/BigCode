@@ -6,24 +6,32 @@ import os
 import sys
 import json
 import ast
+import mccabe_alter
 from CodeLineCount import LineCounter
 from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
-import mccabe_alter
+from PylintScoreCount import PylintScoreCount
+from util.CommitTimesCounter import CommitTimesCounter
 
-# 最大行数和最大圈复杂度
+# 最大行数\最大圈复杂度\最小pylint得分\最大提交次数
 MAX_LINE_NUM = 200
 MAX_CYCLOMATIC_COMPLEXITY = 50
+MIN_PYLINT_SCORE = -20
+MAX_COMMIT_TIMES = 60
 
 
 class CodeHandler:
     __CODE_INFO = []
     __MAX_LINE_NUM = 0
     __MAX_CYCLOMATIC_COMPLEXITY = 0
+    __MIN_PYLINT_SCORE = 0
+    __MAX_COMMIT_TIMES = 0
 
-    def __init__(self, max_line_num, max_cyclomatic_complexity):
+    def __init__(self, max_line_num, max_cyclomatic_complexity, min_pylint_score, max_commit_times):
         self.__MAX_LINE_NUM = max_line_num
         self.__MAX_CYCLOMATIC_COMPLEXITY = max_cyclomatic_complexity
+        self.__MIN_PYLINT_SCORE = min_pylint_score
+        self.__MAX_COMMIT_TIMES = max_commit_times
 
     def list_files(self, path):
 
@@ -32,6 +40,9 @@ class CodeHandler:
         """
 
         lineCounter = LineCounter(self.__MAX_LINE_NUM)
+        pylint_score_counter = PylintScoreCount("")
+        # TODO to zw，在这个里面输入你的做题结果（test_data.json）的路径
+        commit_times_counter = CommitTimesCounter("")
 
         filenames = os.listdir(path)
         for f in filenames:
@@ -47,21 +58,30 @@ class CodeHandler:
                         cases_path = os.path.join(fpath, 'testCases.json')
                 LineCount = 0
                 Cyclomatic_Complexity = 0
+                Pylint_Score = 0
+                Commit_Times = 0
+                pylint_score_counter.set_path(code_path)
                 if self.__checkPY(code_path):
                     FaceToTestHandler = CodeFaceToTestCount(cases_path)
                     LineCount = lineCounter.countLines(code_path)
                     if LineCount != self.__MAX_LINE_NUM:
                         if FaceToTestHandler.isFaceToTest(code_path):
                             LineCount = self.__MAX_LINE_NUM
-                    # TODO 圈复杂度统计
                     if LineCount != self.__MAX_LINE_NUM:
-                        Cyclomatic_Complexity = mccabe_alter.get_module_complexity(code_path,0)
+                        Cyclomatic_Complexity = mccabe_alter.get_module_complexity(code_path, 0)
+                        Pylint_Score = pylint_score_counter.get_score()
+                        dirnames = os.path.split(path)[1].split('_')
+                        Commit_Times = commit_times_counter.getCommitTimes(dirnames[0], dirnames[1])
                     else:
                         Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
+                        Pylint_Score = self.__MIN_PYLINT_SCORE
+                        Commit_Times = self.__MAX_COMMIT_TIMES
                 else:
                     LineCount = self.__MAX_LINE_NUM
                     Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
-                self.__CODE_INFO.append(CodeInfo(code_path, LineCount, Cyclomatic_Complexity))
+                    Pylint_Score = self.__MIN_PYLINT_SCORE
+                    Commit_Times = self.__MAX_COMMIT_TIMES
+                self.__CODE_INFO.append(CodeInfo(code_path, LineCount, Cyclomatic_Complexity, Pylint_Score))
             elif os.path.isdir(fpath):
                 self.list_files(fpath)
 
@@ -87,8 +107,6 @@ class CodeHandler:
 
 if __name__ == '__main__':
 
-    # global MAX_LINE_NUM
-
     if len(sys.argv) != 3:
 
         # 命令行按照如下格式输入即可运行程序
@@ -99,6 +117,6 @@ if __name__ == '__main__':
     else:
         project_path = sys.argv[1]
         target_path = sys.argv[2]
-        handler = CodeHandler(MAX_LINE_NUM, MAX_CYCLOMATIC_COMPLEXITY)
+        handler = CodeHandler(MAX_LINE_NUM, MAX_CYCLOMATIC_COMPLEXITY, MIN_PYLINT_SCORE, MAX_COMMIT_TIMES)
         handler.list_files(project_path)
         handler.printResult(target_path)
