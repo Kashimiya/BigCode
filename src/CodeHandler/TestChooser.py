@@ -77,8 +77,7 @@ class TestChooser:
         reader = csv.reader(file)
         commits_lines = list(reader)
         file.close()
-        # TODO to zw 请在这里填写你的test_data.json的路径
-        score_getter = GotScoreGetter("")
+        score_getter = GotScoreGetter("D:\\test_data.json")
         for score_line in score_lines:
             if score_line[0] in self.__smoothTestSet:
                 if self.__scoreSet[0] < float(score_line[2]) < self.__scoreSet[1]:

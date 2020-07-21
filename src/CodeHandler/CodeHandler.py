@@ -1,7 +1,3 @@
-"""
-将控制台输出保存到文件https://www.cnblogs.com/pfeiliu/p/12723589.html
-"""
-
 import os
 import sys
 import json
