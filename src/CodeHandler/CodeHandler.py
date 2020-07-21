@@ -10,6 +10,7 @@ from CodeLineCount import LineCounter
 from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
 import mccabe_alter
+import pylint
 
 # 最大行数和最大圈复杂度
 MAX_LINE_NUM = 200
@@ -61,6 +62,7 @@ class CodeHandler:
                 else:
                     LineCount = self.__MAX_LINE_NUM
                     Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
+
                 self.__CODE_INFO.append(CodeInfo(code_path, LineCount, Cyclomatic_Complexity))
             elif os.path.isdir(fpath):
                 self.list_files(fpath)

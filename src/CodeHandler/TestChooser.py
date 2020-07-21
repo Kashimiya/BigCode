@@ -14,7 +14,7 @@ class TestChooser:
     # 挑选的分数段，默认为大于98小于100
     __scoreSet = [98, 100]
     # 挑选的提交次数段，默认为大于10小于60
-    __commitSet = [10, 60]
+    __commitSet = [0, 60]
     __smoothTestSet = []
     __hardTestSet = []
     # 输出结果 调用get函数即可
