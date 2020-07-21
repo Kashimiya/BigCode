@@ -5,9 +5,6 @@ import pandas as pd
 
 class CommitTimesCounter:
     __examples = {}
-    __studentCases = []
-    # 当前记录的学生的编号
-    __studentId = ""
     __caseId = []
     __caseAvgCommitTimes = []
     __peopleNum = []
@@ -18,26 +15,14 @@ class CommitTimesCounter:
         self.__examples = json.load(file)
         file.close()
 
-    # 为了提高效率，先加载这个学生的信息
-    def __initStudent(self, student):
-        self.__studentId = student
-        for example in self.__examples:
-            temp = self.__examples[example]
-            if temp["user_id"] == student:
-                self.__studentCases = temp["cases"]
-
     # 获得学生某道题的提交次数
     # @param: student 学生的编号
     # @param: test 题目编号
     def getCommitTimes(self, student, test):
-        if student == self.__studentId:
-            for case in self.__studentCases:
-                if case["case_id"] == test:
-                    upload_records = case["upload_records"]
-                    return len(upload_records)
-        else:
-            self.__initStudent(student)
-            self.getCommitTimes(student, test)
+        cases = self.__examples[student]['cases']
+        for case in cases:
+            if case['case_id'] == test:
+                return len(case['upload_records'])
 
     # 将所有题目的平均提交次数输出到文件
     def printAvgCommitTimes(self):

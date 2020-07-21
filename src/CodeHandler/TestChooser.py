@@ -1,20 +1,22 @@
 """
-现在简单做了一个根据分数选择题目的类
 使用方法：在创建实例后直接get结果即可
 """
 import csv
 import json
 import os
+from GotScoreGetter import GotScoreGetter
 
 
 class TestChooser:
     __student = ""
     __smoothTime = []
     __hardTime = []
-    # 挑选的分数段，默认为大于98小于100
-    __scoreSet = [98, 100]
-    # 挑选的提交次数段，默认为大于0小于60
-    __commitSet = [0, 60]
+    # 挑选的分数段，默认为大于97小于100
+    __scoreSet = [97, 100]
+    # 挑选的提交次数段，默认为大于0小于6.5
+    __commitSet = [0, 6.5]
+    # 挑选的得分段，默认大于等于50小于等于100
+    __gotScoreSet = [50, 100]
 
     __smoothTestSet = []
     __hardTestSet = []
@@ -75,19 +77,27 @@ class TestChooser:
         reader = csv.reader(file)
         commits_lines = list(reader)
         file.close()
+        # TODO to zw 请在这里填写你的test_data.json的路径
+        score_getter = GotScoreGetter("")
         for score_line in score_lines:
             if score_line[0] in self.__smoothTestSet:
                 if self.__scoreSet[0] < float(score_line[2]) < self.__scoreSet[1]:
                     for commits_line in commits_lines:
                         if commits_line[0] == score_line[0]:
                             if self.__commitSet[0] < float(commits_line[1]) < self.__commitSet[1]:
-                                self.__smoothRes.append(score_line[0])
+                                if self.__gotScoreSet[0] <= score_getter.getScore(self.__student, score_line[0]) <= \
+                                        self.__gotScoreSet[1]:
+                                    self.__smoothRes.append(score_line[0])
+                            break
             elif score_line[0] in self.__hardTestSet:
                 if self.__scoreSet[0] < float(score_line[2]) < self.__scoreSet[1]:
                     for commits_line in commits_lines:
                         if commits_line[0] == score_line[0]:
                             if self.__commitSet[0] < float(commits_line[1]) < self.__commitSet[1]:
-                                self.__hardRes.append(score_line[0])
+                                if self.__gotScoreSet[0] <= score_getter.getScore(self.__student, score_line[0]) <= \
+                                        self.__gotScoreSet[1]:
+                                    self.__hardRes.append(score_line[0])
+                            break
 
     def getSmoothTest(self):
         return self.__smoothRes
