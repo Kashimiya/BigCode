@@ -1,18 +1,13 @@
 class CodeInfo:
-
     FilePath = ""
     CodeLine = 0
-    Cyclomatic_Complexity = 0
+    cyclomatic_complexity = 0
+    pylint_score = 0
+    commit_times = 0
 
-    def __init__(self, FilePath, CodeLine, Cyclomatic_Complexity):
+    def __init__(self, FilePath, CodeLine, cyclomatic_complexity, pylint_score, commit_times):
         self.FilePath = FilePath
         self.CodeLine = CodeLine
-        self.Cyclomatic_Complexity = Cyclomatic_Complexity
-
-    # 按照json的格式输出
-    def printCodeInfo(self):
-        print("{")
-        print("FilePath :\'" + self.FilePath + "\',")
-        print("CodeRow :" + self.CodeLine + ",")
-        print("Cyclomatic_Complexity :" + self.Cyclomatic_Complexity)
-        print("},")
+        self.cyclomatic_complexity = cyclomatic_complexity
+        self.pylint_score = pylint_score
+        self.commit_times = commit_times

@@ -51,7 +51,6 @@ if __name__ == '__main__':
         tc = TestChooser(record[0], record[1], record[2], filepath)
         s = tc.getSmoothTest()
         h = tc.getHardTest()
-        tc.setCommitSet([0,100])
         print(s, h)
         json_text += "\"" + record[0] + "\":{"
         json_text += "\"hardset\":" + str(h) + ",\n"
