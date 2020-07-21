@@ -11,7 +11,7 @@ from CodeLineCount import LineCounter
 from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
 from PylintScoreCount import PylintScoreCount
-from util.CommitTimesCounter import CommitTimesCounter
+from CommitTimesCounter import CommitTimesCounter
 
 # 最大行数\最大圈复杂度\最小pylint得分\最大提交次数
 MAX_LINE_NUM = 200
@@ -41,8 +41,8 @@ class CodeHandler:
 
         lineCounter = LineCounter(self.__MAX_LINE_NUM)
         pylint_score_counter = PylintScoreCount("")
-        # TODO to zw，在这个里面输入你的做题结果（test_data.json）的路径
-        commit_times_counter = CommitTimesCounter("")
+        #test_data路径
+        commit_times_counter = CommitTimesCounter("D:\\test_data.json")
 
         filenames = os.listdir(path)
         for f in filenames:
@@ -72,7 +72,9 @@ class CodeHandler:
                         Cyclomatic_Complexity = mccabe_alter.get_module_complexity(code_path, 0)
                         Pylint_Score = pylint_score_counter.get_score()
                         dirnames = os.path.split(path)[1].split('_')
+                        print("*******")
                         Commit_Times = commit_times_counter.getCommitTimes(dirnames[0], dirnames[1])
+                        print(Commit_Times)
                     else:
                         Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
                         Pylint_Score = self.__MIN_PYLINT_SCORE
@@ -82,7 +84,7 @@ class CodeHandler:
                     Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
                     Pylint_Score = self.__MIN_PYLINT_SCORE
                     Commit_Times = self.__MAX_COMMIT_TIMES
-                self.__CODE_INFO.append(CodeInfo(code_path, LineCount, Cyclomatic_Complexity, Pylint_Score))
+                self.__CODE_INFO.append(CodeInfo(code_path, LineCount, Cyclomatic_Complexity, Pylint_Score,Commit_Times))
             elif os.path.isdir(fpath):
                 self.list_files(fpath)
 
