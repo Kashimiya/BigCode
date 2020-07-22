@@ -3,7 +3,6 @@ import sys
 import json
 import ast
 import mccabe_alter
-import PylintScoreCount
 from CodeLineCount import LineCounter
 from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
@@ -37,6 +36,7 @@ class CodeHandler:
         commit_times_counter = CommitTimesCounter("D:\\test_data.json")
 
         filenames = os.listdir(path)
+
         for f in filenames:
             fpath = os.path.join(path, f)
             if f == 'main.py':
@@ -66,7 +66,7 @@ class CodeHandler:
                 self.__CODE_INFO.append(
                     CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity,Commit_Times))
             elif f == '.mooctest':
-                break
+                continue
             elif os.path.isdir(fpath):
                 self.list_files(fpath)
 
