@@ -56,7 +56,7 @@ class CodeHandler:
                     if LineCount != self.__MAX_LINE_NUM:
                         if FaceToTestHandler.isFaceToTest(code_path):
                             LineCount = self.__MAX_LINE_NUM
-                    # TODO 圈复杂度统计
+                    # TODO 和平均数的比值
                     if LineCount != self.__MAX_LINE_NUM:
                         Cyclomatic_Complexity = mccabe_alter.get_module_complexity(code_path, 0)
                         Pylint_Score = 10 - PylintScoreCount.get_pylint_score(code_path)
@@ -89,11 +89,11 @@ class CodeHandler:
     def printResult(self, targetPath):
 
         file = open(targetPath, 'w')
-
+        file.write("{\n")
         for code in self.__CODE_INFO:
             file.write(json.dumps(code.__dict__))
             file.write(",\n")
-
+        file.write("}\n")
         file.close()
 
 
