@@ -18,7 +18,7 @@ class PcaDealer:
         mat = []
         for code_info in code_info_all:
             if code_info['student_id'] == student_id:
-                mat.append([code_info['CodeLine'], code_info['cyclomatic_complexity'], code_info['pylint_score'],
+                mat.append([code_info['CodeLine'], code_info['cyclomatic_complexity'],
                             code_info['commit_times']])
                 self.__code_order.append(code_info['case_id'])
         return np.array(mat, dtype='float64')
