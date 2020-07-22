@@ -42,15 +42,9 @@ class CodeHandler:
         filenames = os.listdir(path)
         for f in filenames:
             fpath = os.path.join(path, f)
-            if f == '.mooctest':
-                cases_path = ''
-                code_path = ''
-                files = os.listdir(fpath)
-                for file in files:
-                    if file != 'testCases.json':
-                        code_path = os.path.join(fpath, file)
-                    else:
-                        cases_path = os.path.join(fpath, 'testCases.json')
+            if f == 'main.py':
+                cases_path = os.path.join(os.path.join(path, '.mooctest'), 'testCases.json')
+                code_path = os.path.join(path, f)
                 LineCount = 0
                 Cyclomatic_Complexity = 0
                 Pylint_Score = 0
@@ -78,6 +72,8 @@ class CodeHandler:
                     Commit_Times = self.__MAX_COMMIT_TIMES
                 self.__CODE_INFO.append(
                     CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity, Pylint_Score, Commit_Times))
+            elif f == '.mooctest':
+                break
             elif os.path.isdir(fpath):
                 self.list_files(fpath)
 
