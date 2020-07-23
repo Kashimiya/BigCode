@@ -2,25 +2,21 @@ import os
 import sys
 import numpy as np
 import json
-from matplotlib import pyplot as plt
 
 
 class PcaDealer:
     __code_order = []
 
     # 加载codeinfo.json文件为矩阵
-    # @param: student_id 学生编号
-    def __make_matrix(self, student_id):
+    def __make_matrix(self):
         path = os.path.abspath('..\\..') + '\\doc\\codeinfo.json'
         file = open(path, encoding='utf-8')
         code_info_all = json.load(file)
         file.close()
         mat = []
         for code_info in code_info_all:
-            if code_info['student_id'] == student_id:
-                mat.append([code_info['CodeLine'], code_info['cyclomatic_complexity'],
-                            code_info['commit_times']])
-                self.__code_order.append(code_info['case_id'])
+            mat.append([code_info['CodeLine'], code_info['cyclomatic_complexity'], code_info['commit_times']])
+            self.__code_order.append(code_info['case_id'])
         return np.array(mat, dtype='float64')
 
     # 选择主成分
@@ -41,11 +37,12 @@ class PcaDealer:
                     return i
             return 0
 
-    # @param: component 需要的主成分的数量，默认为2
+    # @param: component 需要的主成分的数量，默认为1
     # @param: rate 信息利用率，默认无
     # @param: student_id 学生编号
-    def pca(self, student_id, component=2, rate=0):
-        code_info_matrix = self.__make_matrix(student_id)
+    # 返回降维之后的矩阵
+    def pca(self, component=1, rate=0):
+        code_info_matrix = self.__make_matrix()
         p, n = np.shape(code_info_matrix)
         # 每一列的平均数
         t = np.mean(code_info_matrix, 0)
@@ -73,33 +70,19 @@ class PcaDealer:
             print([sum(U[:i]) / sum(U) for i in range(1, len(U) + 1)])
             sys.exit(0)
 
-    # 根据得到的降维后的二维矩阵绘制散点图
-    # 其中：蓝色代表平滑时期的代码，黄色代表赶作业时期的代码
-    def draw_pca_matrix(self, student_id):
-        matrix = self.pca(student_id, component=2, rate=0)
-        smoothX, smoothY, hardX, hardY = [], [], [], []
-        path = os.path.abspath('..\\..') + '\\doc\\ChoosenQuestions.json'
-        file = open(path, encoding='utf-8')
-        student_info = json.load(file)[student_id]
-        file.close()
-        for i in range(len(self.__code_order)):
-            if self.__code_order[i] in student_info['smoothset']:
-                smoothX.append(matrix[i, 0])
-                smoothY.append(matrix[i, 1])
-            else:
-                hardX.append(matrix[i, 0])
-                hardY.append(matrix[i, 1])
-        plt.scatter(smoothX, smoothY, c='b')
-        plt.scatter(hardX, hardY, c='y')
-        plt.title("Code Info After PCA for : " + student_id)
-        plt.show()
+    def get_code_order(self):
+        return self.__code_order
 
 
+# TODO 输出pca后的结果，因为matrix结构不明，所以暂时注释掉了输出部分
+# 直接运行该程序即可输出pca后的结果到csv文件
 if __name__ == '__main__':
     pca_dealer = PcaDealer()
-    Path = os.path.abspath('..\\..') + '\\doc\\ChoosenQuestions.json'
-    File = open(Path, encoding='utf-8')
-    student_infos = json.load(File)
-    File.close()
-    for studentId in student_infos:
-        pca_dealer.draw_pca_matrix(studentId)
+    matrix = pca_dealer.pca()
+    print(matrix)
+    # order = pca_dealer.get_code_order()
+    # Path = os.path.abspath('..\\..') + '\\doc\\after_pca.csv'
+    # doc = open(Path, 'a')
+    # for i in range(len(matrix)):
+    #     print(str(order[i]) + ',' + str(matrix[i]), file=doc)
+    # doc.close()
