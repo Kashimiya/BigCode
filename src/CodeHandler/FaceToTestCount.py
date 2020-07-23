@@ -30,11 +30,8 @@ class CodeFaceToTestCount:
         counts = 0
         i = 0
         while i < len(words):
-            # # 含有include为c系代码
-            # if words[i] == 'include':
-            #     return -1
             if words[i] == 'print':
-                # 现在只是简单统计了print的个数
+                # 统计了print的个数
                 counts += 1
             i += 1
         return counts
@@ -44,6 +41,4 @@ class CodeFaceToTestCount:
             # 只有一个用例的情况下，就当作他没有面向用例吧
             return False
         check = self.__countPrint(path)
-        # if check == -1:
-        #     return True
         return len(self.__outputs) <= check

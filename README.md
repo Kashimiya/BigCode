@@ -4,6 +4,10 @@
 
 ### 文件夹管理
 
+#### img文件夹
+
+- 输出图像
+
 #### report文件夹
 
 - 最后和报告相关的文件
@@ -31,3 +35,7 @@
 ##### src/InfluenceHandler文件夹
 
 - 处理、统计辅导员的催促产生的影响力的代码
+
+##### src/ResultHandler文件夹
+
+- 处理CodeHandler输出的数据和结果的代码

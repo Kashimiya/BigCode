@@ -1,12 +1,4 @@
-import os
-
-
 class LineCounter:
-    # 后缀集合
-    # __CPP_SUFFIX_SET = {'.h', '.hpp', '.hxx', '.c', '.cpp', '.cc', '.cxx'}
-    # __PYTHON_SUFFIX_SET = {'.py'}
-    # __JAVA_SUFFIX_SET = {'.java'}
-
     # 最大行数
     __MAX_LINE_NUM = 0
 
@@ -15,12 +7,8 @@ class LineCounter:
 
     def countLines(self, FilePath):
 
-        # suffix = os.path.splitext(FilePath)[-1]
         LineCount = 0
 
-        # if suffix in self.__CPP_SUFFIX_SET or suffix in self.__JAVA_SUFFIX_SET:
-        #     LineCount = self.__MAX_LINE_NUM
-        # else:
         with open(FilePath, 'rb') as f:
             last_data = '\n'
             while True:
