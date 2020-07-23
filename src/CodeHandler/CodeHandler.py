@@ -64,7 +64,7 @@ class CodeHandler:
                     Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
                     Commit_Times = self.__MAX_COMMIT_TIMES
                 self.__CODE_INFO.append(
-                    CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity,Commit_Times))
+                    CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity, Commit_Times))
             elif f == '.mooctest':
                 continue
             elif os.path.isdir(fpath):
