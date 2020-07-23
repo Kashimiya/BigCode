@@ -13,8 +13,8 @@ class TestChooser:
     __hardTime = []
     # 挑选的分数段，默认为大于97小于100
     __scoreSet = [97, 100]
-    # 挑选的提交次数段，默认为大于0小于15
-    __commitSet = [0, 15]
+    # 挑选的提交次数段，默认为大于0小于6.5
+    __commitSet = [0,15]
     # 挑选的得分段，默认大于等于50小于等于100
     __gotScoreSet = [50, 100]
 
@@ -55,13 +55,13 @@ class TestChooser:
                         if self.__smoothTime[i] < upload[0]["upload_time"] < self.__smoothTime[i + 1]:
                             self.__smoothTestSet.append(case["case_id"])'''
                     for i in range(len(self.__smoothTime) // 2):
-                        if self.__smoothTime[i * 2] < upload[0]["upload_time"] < self.__smoothTime[i * 2 + 1]:
+                        if self.__smoothTime[i * 2] < upload[-1]["upload_time"] < self.__smoothTime[i * 2 + 1]:
                             self.__smoothTestSet.append(case["case_id"])
                     '''for i in range(len(self.__hardTime) - 1, 2):
                         if self.__hardTime[i] < upload[0]["upload_time"] < self.__hardTime[i + 1]:
                             self.__hardTestSet.append(case["case_id"])'''
                     for i in range(len(self.__hardTime) // 2):
-                        if self.__hardTime[i * 2] < upload[0]["upload_time"] < self.__hardTime[i * 2 + 1]:
+                        if self.__hardTime[i * 2] < upload[-1]["upload_time"] < self.__hardTime[i * 2 + 1]:
                             self.__hardTestSet.append(case["case_id"])
         file.close()
 
