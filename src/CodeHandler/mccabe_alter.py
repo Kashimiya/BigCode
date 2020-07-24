@@ -2,7 +2,10 @@
     Ned Batchelder
     http://nedbatchelder.com/blog/200803/python_code_complexity_microtool.html
     MIT License.
+    魔改mccabe
 """
+
+
 from __future__ import with_statement
 
 import optparse

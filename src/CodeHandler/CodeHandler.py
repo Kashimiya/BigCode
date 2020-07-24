@@ -6,6 +6,7 @@ import mccabe_alter
 import CodeLineCount
 from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
+import time
 
 # 最大行数\最大圈复杂度
 MAX_LINE_NUM = 100
@@ -26,6 +27,10 @@ class CodeHandler:
         """
         遍历工程路径path，如果遇到文件则统计，如果遇到目录则进行递归
         """
+        codeinfo_average_path= os.path.abspath('../..') + '\\doc\\codeinfo_average.json'
+        codeinfo_file=open(codeinfo_average_path)
+        codeinfo_average=json.loads(codeinfo_file.read())['1']
+
 
         filenames = os.listdir(path)
 
@@ -37,6 +42,10 @@ class CodeHandler:
                 LineCount = 0
                 Cyclomatic_Complexity = 0
                 dirnames = os.path.split(path)[1].split('_')
+                timestamp=int(str(dirnames[3]).split('.')[0])
+                timeArray = time.localtime(timestamp//1000)  # 秒数
+                StyledTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+                time_category=int(StyledTime.split(' ')[1].split(':')[0])
                 if self.__checkPY(code_path):
                     FaceToTestHandler = CodeFaceToTestCount(cases_path)
                     if FaceToTestHandler.isFaceToTest(code_path):
@@ -49,8 +58,12 @@ class CodeHandler:
                 else:
                     LineCount = self.__MAX_LINE_NUM
                     Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
-                self.__CODE_INFO.append(
-                    CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity))
+                for question in codeinfo_average:
+                    if question['case_id']==dirnames[1]:
+                        LineCount=LineCount/question['CodeLine_average']
+                        Cyclomatic_Complexity=Cyclomatic_Complexity/question['cyclomatic_complexity_average']
+                        break
+                self.__CODE_INFO.append(CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity,time_category))
             elif f == '.mooctest':
                 continue
             elif os.path.isdir(fpath):
@@ -68,14 +81,24 @@ class CodeHandler:
     def printResult(self, targetPath):
 
         file = open(targetPath, 'w')
-        file.write("{\n")
-        for code in self.__CODE_INFO:
-            file.write(json.dumps(code.__dict__))
-            file.write(",\n")
-        file.write("}\n")
+        file.write("{\"1\":[\n")
+        for i in range(len(self.__CODE_INFO)):
+            file.write(json.dumps(self.__CODE_INFO[i].__dict__))
+            if i!=len(self.__CODE_INFO)-1:
+                file.write(",\n")
+        file.write("]}\n")
         file.close()
 
 
+
+if __name__ == '__main__':
+    project_path = "D:\\bigCodeDownloads\\unziped"
+    target_path = path = os.path.abspath('../..') + '\\doc\\codeinfo.json'
+    handler = CodeHandler(MAX_LINE_NUM, MAX_CYCLOMATIC_COMPLEXITY)
+    handler.list_files(project_path)
+    handler.printResult(target_path)
+
+    '''
 if __name__ == '__main__':
 
     if len(sys.argv) != 3:
@@ -89,4 +112,4 @@ if __name__ == '__main__':
         target_path = sys.argv[2]
         handler = CodeHandler(MAX_LINE_NUM, MAX_CYCLOMATIC_COMPLEXITY)
         handler.list_files(project_path)
-        handler.printResult(target_path)
+        handler.printResult(target_path)'''
