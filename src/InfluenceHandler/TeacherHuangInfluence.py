@@ -1,8 +1,8 @@
 from openpyxl import Workbook
 import os
 
-class CountPeopleByRange:
-    def countPeopleByRange(self):
+class TeacherHuangInfluence:
+    def teacherHuangInfluence(self):
 
         excelPath=os.path.abspath('../..')+'\\doc\\DataAnalysis.xlsx'
         workbook=Workbook()
@@ -51,6 +51,7 @@ class CountPeopleByRange:
                 count=count+1
 
         workbook.save(excelPath)
+
 if __name__ == '__main__':
-    a=CountPeopleByRange()
-    a.countPeopleByRange()
+    a=TeacherHuangInfluence()
+    a.teacherHuangInfluence()
