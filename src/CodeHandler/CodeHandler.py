@@ -30,10 +30,9 @@ class CodeHandler:
         """
         遍历工程路径path，如果遇到文件则统计，如果遇到目录则进行递归
         """
-        codeinfo_average_path= os.path.abspath('../..') + '\\doc\\codeinfo_average.json'
-        codeinfo_file=open(codeinfo_average_path)
-        codeinfo_average=json.loads(codeinfo_file.read())['1']
-
+        codeinfo_average_path = os.path.abspath('../..') + '\\doc\\codeinfo_average.json'
+        codeinfo_file = open(codeinfo_average_path)
+        codeinfo_average = json.loads(codeinfo_file.read())['1']
 
         filenames = os.listdir(path)
 
@@ -45,35 +44,36 @@ class CodeHandler:
                 LineCount = 0
                 Cyclomatic_Complexity = 0
                 dirnames = os.path.split(path)[1].split('_')
-                if(dirnames[0]!=str(uid)):
+                if (dirnames[0] != str(uid)):
                     continue
                 name = dirnames[2]
-                timestamp=int(str(dirnames[3]).split('.')[0])
-                timeArray = time.localtime(timestamp//1000)  # 秒数
+                timestamp = int(str(dirnames[3]).split('.')[0])
+                timeArray = time.localtime(timestamp // 1000)  # 秒数
                 StyledTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-                time_category=int(StyledTime.split(' ')[1].split(':')[0])
+                time_category = int(StyledTime.split(' ')[1].split(':')[0])
                 if self.__checkPY(code_path):
                     FaceToTestHandler = CodeFaceToTestCount(cases_path)
                     if FaceToTestHandler.isFaceToTest(code_path):
                         LineCount = self.__MAX_LINE_NUM
                         Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
                     else:
-                        # TODO 和平均数的比值
                         LineCount = CodeLineCount.countLines(code_path)
                         Cyclomatic_Complexity = mccabe_alter.get_module_complexity(code_path, 0)
                 else:
                     LineCount = self.__MAX_LINE_NUM
                     Cyclomatic_Complexity = self.__MAX_CYCLOMATIC_COMPLEXITY
                 for question in codeinfo_average:
-                    if question['case_id']==dirnames[1]:
-                        LineCount=LineCount/question['CodeLine_average']
-                        Cyclomatic_Complexity=Cyclomatic_Complexity/question['cyclomatic_complexity_average']
+                    # 和平均数的比值
+                    if question['case_id'] == dirnames[1]:
+                        LineCount = LineCount / question['CodeLine_average']
+                        Cyclomatic_Complexity = Cyclomatic_Complexity / question['cyclomatic_complexity_average']
                         break
-                self.__CODE_INFO.append(CodeInfo(dirnames[0], dirnames[1], name, LineCount, Cyclomatic_Complexity,time_category))
+                self.__CODE_INFO.append(
+                    CodeInfo(dirnames[0], dirnames[1], name, LineCount, Cyclomatic_Complexity, time_category))
             elif f == '.mooctest':
                 continue
             elif os.path.isdir(fpath):
-                self.list_files(fpath,uid)
+                self.list_files(fpath, uid)
 
     def __checkPY(self, path):
         with open(path, encoding='UTF-8') as mod:
@@ -90,27 +90,26 @@ class CodeHandler:
         file.write("{\"1\":[\n")
         for i in range(len(self.__CODE_INFO)):
             file.write(json.dumps(self.__CODE_INFO[i].__dict__))
-            if i!=len(self.__CODE_INFO)-1:
+            if i != len(self.__CODE_INFO) - 1:
                 file.write(",\n")
         file.write("]}\n")
         file.close()
 
 
-
 if __name__ == '__main__':
-    #download part
-    uid=int(input())
+    # download part
+    uid = int(input())
     dlcode = DownloadCode(uid)
     dlcode.download()
 
-    #this part
+    # this part
     project_path = "D:\\bigCodeDownloads\\unziped"
     target_path = path = os.path.abspath('../..') + '\\doc\\codeinfo.json'
     handler = CodeHandler(MAX_LINE_NUM, MAX_CYCLOMATIC_COMPLEXITY)
-    handler.list_files(project_path,uid)
+    handler.list_files(project_path, uid)
     handler.printResult(target_path)
 
-    #pca part
+    # pca part
     pca_dealer = PcaDealer()
     matrix = pca_dealer.pca()
     order = pca_dealer.get_code_order()
@@ -122,23 +121,6 @@ if __name__ == '__main__':
     doc.write(res)
     doc.close()
 
-    #time zone
-    tzh=TimeZoneHandler()
+    # time zone
+    tzh = TimeZoneHandler()
     tzh.TimeZonePrint()
-
-
-    '''
-if __name__ == '__main__':
-
-    if len(sys.argv) != 3:
-
-        # 命令行按照如下格式输入即可运行程序
-        # @param: project_path: 包含代码文件的目录，可以是文件夹或者文件
-        # @param: target_path: 输出目标，是一个json文件
-        print("Usage :  project_path target_path")
-    else:
-        project_path = sys.argv[1]
-        target_path = sys.argv[2]
-        handler = CodeHandler(MAX_LINE_NUM, MAX_CYCLOMATIC_COMPLEXITY)
-        handler.list_files(project_path)
-        handler.printResult(target_path)'''

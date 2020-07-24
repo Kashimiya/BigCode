@@ -81,9 +81,9 @@ if __name__ == '__main__':
     matrix = pca_dealer.pca()
     order = pca_dealer.get_code_order()
     Path = os.path.abspath('..\\..') + '\\doc\\after_pca.csv'
-    res=""
+    res = ""
     for i in range(len(order)):
-        res+=str(order[i]) + ',' + str(matrix[i][0]+"\n")
+        res += str(order[i]) + ',' + str(matrix[i][0] + "\n")
     doc = open(Path, 'w')
     doc.write(res)
     doc.close()

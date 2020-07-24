@@ -18,7 +18,7 @@ class CodeHandler:
     __MAX_LINE_NUM = 0
     __MAX_CYCLOMATIC_COMPLEXITY = 0
     __MAX_COMMIT_TIMES = 0
-    __res=[]
+    __res = []
 
     def __init__(self, max_line_num, max_cyclomatic_complexity, max_commit_times):
         self.__MAX_LINE_NUM = max_line_num
@@ -65,9 +65,9 @@ class CodeHandler:
 
                     Commit_Times = self.__MAX_COMMIT_TIMES
                 self.__CODE_INFO.append(
-                    CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity,  Commit_Times))
+                    CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity, Commit_Times))
             elif f == '.mooctest':
-                #2020.7.22 zw: debug
+                # 2020.7.22 zw: debug
                 continue
             elif os.path.isdir(fpath):
                 self.list_files(fpath)
@@ -102,47 +102,43 @@ class CodeHandler:
         file.write("]}")
         file.close()
 
-    def calAverage(self,targetPath):
-        file=open(targetPath)
-        content=file.read()
-        codeinfo_average=json.loads(content)["1"]
+    def calAverage(self, targetPath):
+        file = open(targetPath)
+        content = file.read()
+        codeinfo_average = json.loads(content)["1"]
         file.close()
         print(codeinfo_average)
-        path_score=os.path.abspath('../..')+'\\doc\\Score.csv'
+        path_score = os.path.abspath('../..') + '\\doc\\Score.csv'
         questions = []
-        with open(path_score,encoding='UTF-8') as f:
+        with open(path_score, encoding='UTF-8') as f:
             for row in f:
                 questions.append(str(row.split(",")[0]))
-        questions[0]="2198"
+        questions[0] = "2198"
         print(questions)
         for item in questions:
-            codeline_average=0
-            cyclomatic_complexity_average=0
-            count=0
+            codeline_average = 0
+            cyclomatic_complexity_average = 0
+            count = 0
             for answer in codeinfo_average:
 
-                if(answer['case_id']==item):
-                    count+=1
-                    codeline_average+=answer['code_line']
-                    cyclomatic_complexity_average+=answer['cyclomatic_complexity']
-            if count==0:
+                if (answer['case_id'] == item):
+                    count += 1
+                    codeline_average += answer['code_line']
+                    cyclomatic_complexity_average += answer['cyclomatic_complexity']
+            if count == 0:
                 self.__res.append(Question_average(item, 0.0, 0.0))
                 break
-            codeline_average=codeline_average/count
-            cyclomatic_complexity_average=cyclomatic_complexity_average/count
-            self.__res.append(Question_average(item,codeline_average,cyclomatic_complexity_average))
+            codeline_average = codeline_average / count
+            cyclomatic_complexity_average = cyclomatic_complexity_average / count
+            self.__res.append(Question_average(item, codeline_average, cyclomatic_complexity_average))
             path = os.path.abspath('../..') + '\\doc\\codeinfo_average.json'
             self.printResult_average(path)
-
-
-
-
 
 
 if __name__ == '__main__':
     project_path = "D:\\bigCodeDownloads\\all\\unziped"
     target_path = "D:\\bigCodeDownloads\\2.json"
     handler = CodeHandler(MAX_LINE_NUM, MAX_CYCLOMATIC_COMPLEXITY, MAX_COMMIT_TIMES)
-    #handler.list_files(project_path)
-    #handler.printResult(target_path)
+    # handler.list_files(project_path)
+    # handler.printResult(target_path)
     handler.calAverage("D:\\bigCodeDownloads\\2.json")
