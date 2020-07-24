@@ -19,8 +19,10 @@ class TimeZoneHandler:
                     if int(row[0]) == i:
                         count += 1
                         average = (average + float(row[1])) / count
+                if (count <= 5):
+                    average = 0.0
+                res += str(i) + "," + str(average) + "," + str(count) + "\n"
 
-                res += str(i) + "," + str(average) +","+str(count)+"\n"
         tbt_path = os.path.abspath('..\\..') + '\\doc\\typed_by_time.csv'
         doc = open(tbt_path, 'w')
 
