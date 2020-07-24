@@ -10,19 +10,14 @@ class DownloadCode:
     selected_uid=[]
 
     def __init__(self,selected_uid):
+        self.selected_uid=[]
         self.selected_uid.append(int(selected_uid))
     def download(self):
         dir = "D:\\bigCodeDownloads\\raw\\"
         dir_target = "D:\\bigCodeDownloads\\unziped\\"
-        quepath = os.path.abspath('../..') + '\\doc\\ChoosenQuestions.json'
         f = open('D:\\test_data.json', encoding='utf-8')
         res = f.read()
         data = json.loads(res)
-
-        file_que = open(quepath, encoding='utf-8')
-        que = file_que.read()
-        questions = json.loads(que)
-
         # print(data)
         for i in range(len(self.selected_uid)):
             uid = str(self.selected_uid[i])
