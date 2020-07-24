@@ -11,12 +11,12 @@ class PcaDealer:
     def __make_matrix(self):
         path = os.path.abspath('..\\..') + '\\doc\\codeinfo.json'
         file = open(path, encoding='utf-8')
-        code_info_all = json.load(file)
+        code_info_all = json.load(file)['1']
         file.close()
         mat = []
         for code_info in code_info_all:
-            mat.append([code_info['CodeLine'], code_info['cyclomatic_complexity'], code_info['commit_times']])
-            self.__code_order.append(code_info['case_id'])
+            mat.append([code_info['code_line'], code_info['cyclomatic_complexity']])
+            self.__code_order.append(code_info['time_category'])
         return np.array(mat, dtype='float64')
 
     # 选择主成分
@@ -74,15 +74,14 @@ class PcaDealer:
         return self.__code_order
 
 
-# TODO 输出pca后的结果，因为matrix结构不明，所以暂时注释掉了输出部分
+# 输出pca后的结果
 # 直接运行该程序即可输出pca后的结果到csv文件
 if __name__ == '__main__':
     pca_dealer = PcaDealer()
     matrix = pca_dealer.pca()
-    print(matrix)
-    # order = pca_dealer.get_code_order()
-    # Path = os.path.abspath('..\\..') + '\\doc\\after_pca.csv'
-    # doc = open(Path, 'a')
-    # for i in range(len(matrix)):
-    #     print(str(order[i]) + ',' + str(matrix[i]), file=doc)
-    # doc.close()
+    order = pca_dealer.get_code_order()
+    Path = os.path.abspath('..\\..') + '\\doc\\after_pca.csv'
+    doc = open(Path, 'a')
+    for i in range(len(order)):
+        print(str(order[i]) + ',' + str(matrix[i][0]), file=doc)
+    doc.close()
