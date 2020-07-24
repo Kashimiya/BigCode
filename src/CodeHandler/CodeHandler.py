@@ -42,6 +42,7 @@ class CodeHandler:
                 LineCount = 0
                 Cyclomatic_Complexity = 0
                 dirnames = os.path.split(path)[1].split('_')
+                name = dirnames[2]
                 timestamp=int(str(dirnames[3]).split('.')[0])
                 timeArray = time.localtime(timestamp//1000)  # 秒数
                 StyledTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
@@ -63,7 +64,7 @@ class CodeHandler:
                         LineCount=LineCount/question['CodeLine_average']
                         Cyclomatic_Complexity=Cyclomatic_Complexity/question['cyclomatic_complexity_average']
                         break
-                self.__CODE_INFO.append(CodeInfo(dirnames[0], dirnames[1], LineCount, Cyclomatic_Complexity,time_category))
+                self.__CODE_INFO.append(CodeInfo(dirnames[0], dirnames[1], name, LineCount, Cyclomatic_Complexity,time_category))
             elif f == '.mooctest':
                 continue
             elif os.path.isdir(fpath):
