@@ -1,9 +1,13 @@
+from openpyxl import Workbook
 import os
-from matplotlib import pyplot as plt
-
 
 class CountPeopleByRange:
-    def countPeopleByRange(self, lower, higher):
+    def countPeopleByRange(self):
+
+        excelPath=os.path.abspath('../..')+'\\doc\\DataAnalysis.xlsx'
+        workbook=Workbook()
+        sheet=workbook.active
+        sheet.title='title'
         # lower和 higher 代表输入做题数目区间的上限和下限
         path = os.path.abspath('../..') + '\\doc\\Result'
         doc = open(path, 'r')
@@ -37,39 +41,16 @@ class CountPeopleByRange:
                     endTime[j] = int(endTime[j])
                     if endTime[j] < 20:
                         dropOut.append(j)
-        count = 0
-        caseBefore = 0
-        caseAfter = 0
-        index = []
         # distribution是每个同学平均每日增长解题数
-        distribution = []
+        count=1
         for i in range(0, len(hlBefore)):
-            if hlBefore[i] <= higher and hlBefore[i] >= lower and i not in dropOut:
-                index.append(i)
-                caseBefore = caseBefore + hlBefore[i]
-                count = count + 1
-        for j in index:
-            caseAfter += hlAfter[j]
-            distribution.append((hlAfter[j] - hlBefore[j]) / 3 - hlBefore[j] / 10)
-        distribution.sort()
-        abscissa = []
-        for i in range(1, len(distribution) + 1):
-            abscissa.append(i)
-        # 将每个同学平均每日增长解题数图给画出来，abscissa是横坐标只是代表个体编号
-        plt.scatter(abscissa, distribution)
-        plt.title("[" + str(lower) + "," + str(
-            higher) + "]" + " Each student increases the number of problem solving every day")
-        plt.show()
-        path = os.path.abspath('../..') + '\\doc\\CountPeopleByRangeResult'
-        writeDoc = open(path, 'a')
-        caseBeforeAverage = (caseBefore / count) / 10
-        caseAfterAverage = ((caseAfter - caseBefore) / count) / 3
-        if (caseBeforeAverage == 0):
-            growthRate = 9999999999
-        else:
-            growthRate = caseAfterAverage / caseBeforeAverage - 1
-        # 将区间，人数，前后平均做题数目，前后平均每天做题增长率打印到文件里面
-        print("[" + str(lower) + ',' + str(higher) + "]," + str(count), end=",", file=writeDoc)
-        print(caseBeforeAverage, end=",", file=writeDoc)
-        print(caseAfterAverage, end=",", file=writeDoc)
-        print(growthRate, file=writeDoc)
+            if i not in dropOut:
+                distribution=((hlAfter[i] - hlBefore[i]) / 3 - hlBefore[i] / 10)
+                sheet.cell(count,1).value=hlBefore[i]
+                sheet.cell(count,2).value=distribution
+                count=count+1
+
+        workbook.save(excelPath)
+if __name__ == '__main__':
+    a=CountPeopleByRange()
+    a.countPeopleByRange()
