@@ -18,16 +18,16 @@ def draw_result():
     # 散点图
     plt.scatter(X, Y)
     plt.title("scatter plot for result")
+    plt.savefig(os.path.abspath('..\\..') + '\\img\\scatter plot for result.png')
     plt.show()
-    # plt.savefig(os.path.abspath('..\\..') + '\\img\\scatter plot for result.csv')
     # 平滑曲线
     plt.figure()
     newX = np.linspace(X.min(), X.max(), 300)
     newY = spline(X, Y, newX)
     plt.plot(newX, newY)
     plt.title("smooth curve for result")
+    plt.savefig(os.path.abspath('..\\..') + '\\img\\smooth curve for result.png')
     plt.show()
-    # plt.savefig(os.path.abspath('..\\..') + '\\img\\smooth curve for result.csv')
 
 
 if __name__ == '__main__':
