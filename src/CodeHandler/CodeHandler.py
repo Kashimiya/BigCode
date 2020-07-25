@@ -44,7 +44,7 @@ class CodeHandler:
                 LineCount = 0
                 Cyclomatic_Complexity = 0
                 dirnames = os.path.split(path)[1].split('_')
-                if (dirnames[0] != str(uid)):
+                if dirnames[0] != str(uid):
                     continue
                 name = dirnames[2]
                 timestamp = int(str(dirnames[3]).split('.')[0])

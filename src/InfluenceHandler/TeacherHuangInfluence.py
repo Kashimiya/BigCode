@@ -1,13 +1,14 @@
 from openpyxl import Workbook
 import os
 
+
 class TeacherHuangInfluence:
     def teacherHuangInfluence(self):
 
-        excelPath=os.path.abspath('../..')+'\\doc\\DataAnalysis.xlsx'
-        workbook=Workbook()
-        sheet=workbook.active
-        sheet.title='title'
+        excelPath = os.path.abspath('../..') + '\\doc\\DataAnalysis.xlsx'
+        workbook = Workbook()
+        sheet = workbook.active
+        sheet.title = 'title'
         # lower和 higher 代表输入做题数目区间的上限和下限
         path = os.path.abspath('../..') + '\\doc\\Result'
         doc = open(path, 'r')
@@ -42,16 +43,17 @@ class TeacherHuangInfluence:
                     if endTime[j] < 20:
                         dropOut.append(j)
         # distribution是每个同学平均每日增长解题数
-        count=1
+        count = 1
         for i in range(0, len(hlBefore)):
             if i not in dropOut:
-                distribution=((hlAfter[i] - hlBefore[i]) / 3 - hlBefore[i] / 10)
-                sheet.cell(count,1).value=hlBefore[i]
-                sheet.cell(count,2).value=distribution
-                count=count+1
+                distribution = ((hlAfter[i] - hlBefore[i]) / 3 - hlBefore[i] / 10)
+                sheet.cell(count, 1).value = hlBefore[i]
+                sheet.cell(count, 2).value = distribution
+                count = count + 1
 
         workbook.save(excelPath)
 
+
 if __name__ == '__main__':
-    a=TeacherHuangInfluence()
+    a = TeacherHuangInfluence()
     a.teacherHuangInfluence()

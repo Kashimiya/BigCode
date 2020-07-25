@@ -5,13 +5,14 @@ import urllib.parse
 import os
 import zipfile
 
-# 懒得写接口了！有人帮忙写下吗？ 要用的时候改一下路径吧
-class DownloadCode:
-    selected_uid=[]
 
-    def __init__(self,selected_uid):
-        self.selected_uid=[]
+class DownloadCode:
+    selected_uid = []
+
+    def __init__(self, selected_uid):
+        self.selected_uid = []
         self.selected_uid.append(int(selected_uid))
+
     def download(self):
         dir = "D:\\bigCodeDownloads\\raw\\"
         dir_target = "D:\\bigCodeDownloads\\unziped\\"
@@ -21,14 +22,14 @@ class DownloadCode:
         # print(data)
         for i in range(len(self.selected_uid)):
             uid = str(self.selected_uid[i])
-            user ="uid_" + str(self.selected_uid[i])
+            user = "uid_" + str(self.selected_uid[i])
             cases = data[uid]['cases']
             print(cases)
             # 下载选定用户的最终提交代码到D:\\bigCodeDownloads
             i = 1
             for case in cases:
                 # 下载
-                if(int(case['final_score'])==0):
+                if (int(case['final_score']) == 0):
                     continue
                 print(case["case_id"], case["case_type"], case['case_zip'])
                 # filename为保存到本地的文件名
@@ -58,7 +59,6 @@ class DownloadCode:
                 filename_target = filename_target.replace("*", "x")
                 filename_target = uid + "_" + case["case_id"] + "_" + filename_target
                 filename_target = dir_target + user + "\\" + case["case_type"] + "\\" + filename_target
-
 
                 f_temp = zipfile.ZipFile(filename, 'r')
                 # print(f.namelist())

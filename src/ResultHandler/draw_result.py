@@ -25,6 +25,11 @@ def choose_clusters(nums):
     return k_means(data, cluster)
 
 
+# @param: model k_means得到的分类
+# @param: points 平均值的数组
+# @param: hours 小时的数组
+# @param: cluster 聚类数
+# 输出推荐的小时
 def print_result(model, points, hours, cluster):
     means = []
     for i in range(cluster):
@@ -60,7 +65,7 @@ def draw_result():
     Y = np.array(Y)
     model = choose_clusters(Y)
     # 散点图
-    # 用颜色区分结果
+    # 用颜色区分聚类
     plt.scatter(X, Y, c=model[1])
     plt.title("scatter plot for result")
     plt.savefig(os.path.abspath('..\\..') + '\\img\\scatter plot for result.png')
@@ -73,6 +78,7 @@ def draw_result():
     plt.title("smooth curve for result")
     plt.savefig(os.path.abspath('..\\..') + '\\img\\smooth curve for result.png')
     plt.show()
+    # 输出推荐结果
     print_result(model[1], Y, X, max(model[1]) + 1)
 
 

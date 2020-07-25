@@ -4,10 +4,11 @@ import sympy as sp
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+
 if __name__ == '__main__':
     excelPath = os.path.abspath('../..') + '\\doc\\DataAnalysis.xlsx'
-    workbook=load_workbook(excelPath)
-    sheet=workbook.active
+    workbook = load_workbook(excelPath)
+    sheet = workbook.active
     cols2 = []
     cols1 = []
     for cell in list(sheet.columns)[0]:
