@@ -1,13 +1,13 @@
 import os
-import sys
 import json
 import ast
 import mccabe_alter
+import time
 import CodeLineCount
+import ResultHandler.draw_result as output
 from CodeInfo import CodeInfo
 from FaceToTestCount import CodeFaceToTestCount
 from ResultHandler.pca_dealer import PcaDealer
-import time
 from util.DownloadCode import DownloadCode
 from TimeZoneHandler import TimeZoneHandler
 
@@ -124,3 +124,6 @@ if __name__ == '__main__':
     # time zone
     tzh = TimeZoneHandler()
     tzh.TimeZonePrint()
+
+    # print result
+    output.draw_result()

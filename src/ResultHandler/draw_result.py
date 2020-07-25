@@ -25,6 +25,29 @@ def choose_clusters(nums):
     return k_means(data, cluster)
 
 
+def print_result(model, points, hours, cluster):
+    means = []
+    for i in range(cluster):
+        SUM = 0
+        num = 0
+        for j in range(len(points)):
+            if model[j] == i:
+                SUM += points[j]
+                num += 1
+        means.append(float(SUM) / num)
+    MIN = min(means)
+    res = 0
+    for i in range(len(means)):
+        if means[i] == MIN:
+            res = i
+            break
+    print("We suggest you to write your code at : ")
+    for i in range(len(hours)):
+        if model[i] == res:
+            print(str(hours[i]), end='h ')
+    print()
+
+
 def draw_result():
     path = os.path.abspath('..\\..') + '\\doc\\typed_by_time.csv'
     lines = list(csv.reader(open(path, 'r')))
@@ -40,7 +63,7 @@ def draw_result():
     # 用颜色区分结果
     plt.scatter(X, Y, c=model[1])
     plt.title("scatter plot for result")
-    # plt.savefig(os.path.abspath('..\\..') + '\\img\\scatter plot for result.png')
+    plt.savefig(os.path.abspath('..\\..') + '\\img\\scatter plot for result.png')
     plt.show()
     # 平滑曲线
     plt.figure()
@@ -48,8 +71,9 @@ def draw_result():
     newY = spline(X, Y, newX)
     plt.plot(newX, newY)
     plt.title("smooth curve for result")
-    # plt.savefig(os.path.abspath('..\\..') + '\\img\\smooth curve for result.png')
+    plt.savefig(os.path.abspath('..\\..') + '\\img\\smooth curve for result.png')
     plt.show()
+    print_result(model[1], Y, X, max(model[1]) + 1)
 
 
 if __name__ == '__main__':
