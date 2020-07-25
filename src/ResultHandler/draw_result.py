@@ -46,7 +46,7 @@ def print_result(model, points, hours, cluster):
         if means[i] == MIN:
             res = i
             break
-    print("We suggest you to write your code at : ")
+    print("We suggest that you can write your code at : ")
     for i in range(len(hours)):
         if model[i] == res:
             print(str(hours[i]), end='h ')
